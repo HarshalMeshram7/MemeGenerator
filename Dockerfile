@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:18 AS build
+FROM node:18-alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production
-FROM node:18 AS build
+FROM node:18-alpine AS build
 
 # Install 'serve' globally to serve the build output
 RUN npm install -g serve
