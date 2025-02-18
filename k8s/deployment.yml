@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meme-generator
+  labels:
+    app: meme-generator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: meme-generator
+  template:
+    metadata:
+      labels:
+        app: meme-generator
+    spec:
+      containers:
+      - name: meme-generator
+        image: harshal.azurecr.io/meme-generator:latest
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: acr-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meme-generator-service
+spec:
+  selector:
+    app: meme-generator
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
